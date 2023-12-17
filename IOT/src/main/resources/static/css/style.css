@@ -1,0 +1,330 @@
+style.css
+/*
+** Style Simple Ecommerce Theme for Bootstrap 4
+** Created by T-PHP https://t-php.fr/43-theme-ecommerce-bootstrap-4.html
+*/
+
+:html, body, container{
+    background-color: rgba(247, 243, 238, 0.72) !important;
+}
+
+.bloc_left_price {
+    color: #c01508;
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+}
+.category_block li:hover {
+    background-color: #007bff;
+}
+.category_block li:hover a {
+    color: #ffffff;
+}
+.category_block li a {
+    color: #343a40;
+}
+.add_to_cart_block .price {
+    color: #c01508;
+    text-align: center;
+    font-weight: bold;
+    font-size: 200%;
+    margin-bottom: 0;
+}
+.add_to_cart_block .price_discounted {
+    color: #343a40;
+    text-align: center;
+    text-decoration: line-through;
+    font-size: 140%;
+}
+.product_rassurance {
+    padding: 10px;
+    margin-top: 15px;
+    background: #ffffff;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+.product_rassurance .list-inline {
+    margin-bottom: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+.product_rassurance .list-inline li:hover {
+    color: #343a40;
+}
+.reviews_product .fa-star {
+    color: gold;
+}
+.pagination {
+    margin-top: 20px;
+}
+footer {
+    background: #343a40;
+    padding: 40px;
+    margin-top: 20px;
+}
+footer a {
+    color: #f8f9fa!important
+}
+.bgc{
+    background-image: url(image/Clothes+and+shoes-74_banner.jpg);
+    /*background-image: url("https://envato-shoebox-0.imgix.net/a553/ba21-ce80-45ee-82d4-120907cdb414/Clothes+and+shoes-74_banner.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=1600&s=a9cc1545e602fe3d3e6c9faed39f0a84");*/
+}
+.show_txt{
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+a .active{
+    color: white;
+}
+.nav__body {
+    display: flex;
+    justify-content: space-between;
+    width: 65%;
+}
+
+.container {
+    font-size:1rem
+}
+.nav-item {
+    margin: 0 10px;
+    display:flex;
+    justify-content: space-between;
+
+}
+
+.nav-link{
+    color: white;
+}
+
+.dropdown-toggle:focus + .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    width: 200px;
+}
+
+.dropdown-menu:hover {
+    display:block;
+}
+
+.book-image img {
+    width:100%;
+    height: 240px;
+}
+
+.footer__banner--img {
+    display: inline-block;
+    width: 100%;
+    -webkit-transition: all 6s ease;
+    -moz-transition: all 6s ease;
+    -o-transition: all 6s ease;
+    -ms-transition: all 6s ease;
+    transition: all 6s ease;
+}
+.footer__banner--img:hover {
+    transform: scale(1.3);
+}
+
+.footer__banner {
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 20px ;
+}
+
+.text-light {
+    margin-top: 0px
+}
+
+.book_image {
+    display:flex;
+    justify-content: center;
+    align-item: center;
+    height: 280px;
+}
+
+.book_image > img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: fill;
+    margin: 10px;
+}
+.book_single {
+    height: 450px;
+    box-shadow: 3px 3px 3px 3px rgba(224, 224, 224, 0.52);
+    border-radius: 5px;
+    background-color: rgba(255, 252, 242, 0.21);
+    margin: 10px 0px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: 0.5s;
+    padding: 10px;
+}
+
+.book_single:hover {
+    transform: scale(1.03);
+    box-shadow: 5px 5px 5px 5px rgba(224, 224, 224, 0.52);
+    cursor: pointer;
+}
+
+.myNav {
+    height: 100px;
+    width: 1200px;
+}
+
+#btn__backToTop {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    color: rgb(218, 200, 190);
+    font-size: 3rem;
+    cursor: pointer;
+
+}
+
+.footer__banner {
+    height: 250px;
+}
+
+.breadcrumb {
+    display: flex;
+    justify-content: space-between;
+    align-item: center;
+}
+
+.sort_select {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: 5px;
+}
+
+.sort_select:focus-within {
+    outline: rgba(15, 160, 245, 0.5) solid 3px;
+}
+
+.book_btn{
+    padding: 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.book_btn1{
+    border-radius: none;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: 0.5s;
+}
+
+.book_btn2{
+    border-radius: none;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: 0.5s;
+}
+
+.book_btn1:hover, .book_btn2:hover{
+    transform: scale(1.05);
+}
+
+a, a:hover{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.param-inline, .dd {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.dd{
+    margin: 0 5px;
+}
+
+.card {
+    box-shadow: 3px 3px 3px 3px rgba(224, 224, 224, 0.52);
+}
+
+.comments_field {
+    overflow-y: scroll;
+    max-height: 230px;
+    padding: 15px;
+    background-color: rgba(52, 22, 16, 0.3);
+    border-radius: 5px;
+}
+.comment_submit{
+    margin-top: 15px;
+    padding: 15px;
+
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.delete-button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.le1 {
+	margin-left: 76px;
+}
+#result{
+	margin-top: 20px;
+    margin-left: 76px ;
+    font-size: 25px;
+}
+.le2 {
+	margin-left: 76px;
+	margin-right: 76px;
+}
+#sensorData{
+	display: flex;
+}
+.table-wrapper{
+	flex: 1;
+	margin-left: 20px;
+}
+.save {
+	margin-left: 76px;
+	width: 80px;
+}
+

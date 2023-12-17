@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns=http://www.w3.org/1999/xhtml xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Home Page</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+	<!--begin of menu-->
+	<nav class="navbar navbar-expand-md navbar-secondary bg-secondary">
+		<div class="container myNav">
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+				aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse nav__body justify-content-between" id="navbarsExampleDefault">
+
+				<ul class="navbar-nav" style="display: flex; justify-content: right">
+					<li class="nav-item">
+						<a class="nav-link" href="#" th:if="${session.NAME!=null}"
+							th:text="'Hello ' + ${session.NAME.username}"></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/Logout}" th:if="${session.NAME!=null}">Logout</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/Login}" th:if="${session.NAME==null}">Login</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="le1" th:if="${session.NAME==null}">
+		 <div th:object="${sensorPub}">
+			<h2 th:text="${sensorPub.bpm} +' BPM'"></h2>
+			<h2 th:text="${sensorPub.temp}+ ' °C'"></h2>
+		 </div>
+
+	</div>
+	<h2 class="le1" th:if="${session.NAME!=null}">Theo dõi và dự đoán bệnh tim</h2>
+	<div class="le2" th:if="${session.NAME!=null}">
+		
+		<div id="sensorData"></div>
+
+	</div>
+
+	<div class="container">
+        <div class="form-container">
+            <h1>Dự đoán bệnh tim</h1>
+            <form id="prediction-form">
+                <label for="age">Tuổi :</label>
+                <input type="text" id="age" name="age"><br>
+
+                <label for="sex">Giới tính  (1 = nam, 0 = nữ) :</label>
+                <input type="text" id="sex" name="sex"><br>
+
+                <label for="cp">Loại đau ngực (0 đến 3):</label>
+                <input type="text" id="cp" name="cp"><br>
+
+                <label for="trestbps">Huyết áp nghỉ ngơi (mm Hg):</label>
+                <input type="text" id="trestbps" name="trestbps"><br>
+
+                <label for="chol">Mức độ cholesterol (mg/dl):</label>
+                <input type="text" id="chol" name="chol"><br>
+
+                <label for="fbs">Đường huyết lúc đói(1 là cao hơn 120 mg/dL):</label>
+                <input type="text" id="fbs" name="fbs"><br>
+
+                <label for="restecg">Kết quả điện tâm đồ:</label>
+                <input type="text" id="restecg" name="restecg"><br>
+
+                <label for="thalach">Nhịp tim :</label>
+                <input type="text" id="thalach" name="thalach"><br>
+
+                <label for="exang">Đau thắt ngực do vận động (1 = có, 0 = không):</label>
+                <input type="text" id="exang" name="exang"><br>
+
+                <label for="oldpeak">Sự giảm ST do vận động gây ra trên đồ thị điện tâm đồ:</label>
+                <input type="text" id="oldpeak" name="oldpeak"><br>
+
+                <label for="slope">Độ dốc của đoạn ST cao nhất trên đồ thị điện tâm đồ (0 đến 2):</label>
+                <input type="text" id="slope" name="slope"><br>
+
+                <label for="ca">Số lượng mạch chính (0 đến 4):</label>
+                <input type="text" id="ca" name="ca"><br>
+
+                <label for="thal">Một chỉ số đánh giá tình trạng lâm sàng (1 đến 3):</label>
+                <input type="text" id="thal" name="thal"><br>
+
+                <input type="submit" value="Dự đoán">
+            </form>
+        </div>
+    </div>
+
+    <div id="result"></div>
+    <div  th:if="${session.NAME!=null}">
+		<button class="save" id="saveButton">Save</button>
+
+	</div>
+	
+	<br>
+	<br>
+
+	<br>
+	<br>
+	
+
+
+	<script>
+
+		function loadSensorData() {
+			$.ajax({
+				url: 'http://localhost:8080/mqtt/home',
+				method: 'GET',
+				success: function (response) {
+					displaySensorData(response);
+				},
+				error: function (xhr, status, error) {
+					console.error(error);
+				}
+			});
+		}
+
+		function displaySensorData(data) {
+			var sensorDataElement = document.getElementById('sensorData');
+			var sensors = data.sensors;
+			var latestSensor = data.latestSensor;
+			var predicts = data.predicts;
+			// Hiển thị dữ liệu latestSensor
+			var latestSensorHTML = '<div class="table-wrapper">';
+			latestSensorHTML += '<h2>Các chỉ số hiện tại:</h2>';
+			latestSensorHTML += '<table>';
+			latestSensorHTML += '<tr><th>Temp</th><th>BPM</th></tr>';
+			latestSensorHTML += '<td>' + latestSensor.temp + '</td><td>' + latestSensor.bpm + '</td></tr>';
+			latestSensorHTML += '</table>';
+			latestSensorHTML += '</div>'
+			// Hiển thị dữ liệu các sensors
+			
+			var sensorsHTML = '<div class="table-wrapper">';
+			sensorsHTML += '<h2>Các chỉ số trước đây:</h2>';
+			sensorsHTML += '<table>';
+			sensorsHTML += '<tr><th>Temp</th><th>BPM</th></tr>';
+			sensors.forEach(function (sensor) {
+				sensorsHTML +='<td>' + sensor.temp + '</td><td>' + sensor.bpm + '</td></tr>';
+			});
+			sensorsHTML += '</table>';
+			sensorsHTML += '</div>';
+			
+			var predictsHTML = '<div class="table-wrapper">';
+			predictsHTML += '<h2>Các dự đoán  trước đây:</h2>';
+			predictsHTML += '<table>';
+			predictsHTML += '<tr><th>Kết quả</th></tr>';
+			predicts.forEach(function (predict) {
+				predictsHTML +='<td>' + predict.result + '</td></tr>';
+			});
+			predictsHTML += '</table>';
+			predictsHTML += '</div>';
+			sensorDataElement.innerHTML = latestSensorHTML + sensorsHTML+predictsHTML;
+		}
+
+		$(document).ready(function () {
+			loadSensorData();
+		});
+		setInterval(function () {
+			loadSensorData();
+		}, 1000);
+		
+		$(document).ready(function() {
+            $('#prediction-form').submit(function(event) {
+                event.preventDefault();
+                var age = $('#age').val();
+                var sex = $('#sex').val();
+                var cp = $('#cp').val();
+                var trestbps = $('#trestbps').val();
+                var chol = $('#chol').val();
+                var fbs = $('#fbs').val();
+                var restecg = $('#restecg').val();
+                var thalach = $('#thalach').val();
+                var exang = $('#exang').val();
+                var oldpeak = $('#oldpeak').val();
+                var slope = $('#slope').val();
+                var ca = $('#ca').val();
+                var thal = $('#thal').val();
+
+                $.ajax({
+                    url: 'http://127.0.0.1:5000/predict',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'age': age,
+                        'sex': sex,
+                        'cp': cp,
+                        'trestbps': trestbps,
+                        'chol': chol,
+                        'fbs': fbs,
+                        'restecg': restecg,
+                        'thalach': thalach,
+                        'exang': exang,
+                        'oldpeak': oldpeak,
+                        'slope': slope,
+                        'ca': ca,
+                        'thal': thal
+                    }),
+                    success: function(response) {
+                        var prediction = response.prediction;
+                        $('#result').text('Kết quả dự đoán: ' + prediction +'   ( 1 : Bị bệnh , 0 : Không bị)');
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            $("#saveButton").click(function() {
+                var content = $("#result").text();
+                
+                $.ajax({
+                    url: "http://localhost:8080/mqtt/saveData",
+                    type: "POST",
+                    contentType: "text/plain",
+                    data: content,
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Error saving data: " + error);
+                    }
+                });
+            });
+        });
+	</script>
+</body>
+
+</html>
